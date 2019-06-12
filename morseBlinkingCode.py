@@ -3,7 +3,7 @@ import time,pygame
 
 def show_symbol(data):
     "show a symbol from morse code as a sequence of short and long white screen appearenceson pygame screen"
-    screen.fill([data[1]*255,data[1]* 255,data[1]*255]) # True * 255 = 255 - white screen, False*255 = black
+    screen.fill([data[1]*255,data[1]* 255,data[1]*255]) # True * 255 = 255 - white screen, False*255 - black
     pygame.display.flip()
     time.sleep(data[0]*0.2)
     
@@ -14,7 +14,7 @@ def morse_msg(message):
     for word in message: # itterations on list of message words
         for letter in word: # itterations on each letter of each word
             morse_code.append(morse_alphabet[letter]+'   ')
-        morse_code.append('    ') # adds a gab between words (common 7 (3+4))
+        morse_code.append('    ') # adds a gap between words (common 7)
     return ''.join(morse_code) # list of morse sequence to string literal
     
 	
@@ -44,9 +44,10 @@ length = 0
 running = True
 len_msg = len(msg) # in order to not compute it on each itteration
 print(msg)
-
 pygame.init()
 screen = pygame.display.set_mode([740,590]) # screen size
+font1 = pygame.font.Font(None,36)
+done = font1.render('DONE',1,(255,255,255))
 time.sleep(2)
 while running:
     for event in pygame.event.get():
@@ -54,5 +55,8 @@ while running:
             running = False
     if length < len_msg: #if length of msg becomes less length - black screen established
         show_symbol(symbols[msg[length]])
-    length += 1
+        length += 1
+    if length == len_msg:
+        screen.blit(done,(5,5))
+        pygame.display.flip()
 pygame.quit()
